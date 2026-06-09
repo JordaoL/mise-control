@@ -146,7 +146,7 @@ export default function PanelRecetas({ recetas }) {
       </div>
 
       {/* Grid de recetas */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', marginBottom: '20px' }}>
+      <div className="grid-recetas">
         {recetas.map(r => <TarjetaReceta key={r.id} receta={r} />)}
       </div>
 

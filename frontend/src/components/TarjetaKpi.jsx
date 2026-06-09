@@ -13,16 +13,16 @@ export default function TarjetaKpi({ etiqueta, valor, tooltip, color = 'neutro' 
   return (
     <div
       className="card relative overflow-hidden flex flex-col justify-between"
-      style={{ padding: '20px 22px 18px' }}
+      style={{ padding: '16px 14px 14px' }}
     >
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: ac.line }} />
-      <div className="flex items-center justify-between mb-3">
-        <span className="section-label">{etiqueta}</span>
+      <div className="flex items-center justify-between mb-2">
+        <span className="section-label" style={{ fontSize: '9px' }}>{etiqueta}</span>
         {tooltip && <IconoInfo texto={tooltip} />}
       </div>
       <p
-        className="serif"
-        style={{ fontSize: '30px', fontWeight: 700, color: ac.val, lineHeight: 1, letterSpacing: '-0.02em' }}
+        className="serif kpi-valor"
+        style={{ color: ac.val, letterSpacing: '-0.02em' }}
       >
         {valor}
       </p>

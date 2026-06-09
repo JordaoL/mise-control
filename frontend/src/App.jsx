@@ -26,7 +26,7 @@ function Cabecera({ fecha }) {
   return (
     <header>
       <div style={{ height: '4px', background: 'var(--terra)', width: '100%' }} />
-      <div style={{ background: 'var(--card)', borderBottom: '1px solid var(--border)', padding: '20px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="header-inner">
         <div className="flex items-center gap-4">
           <img
             src="/logo.jpg"
@@ -141,9 +141,9 @@ export default function App() {
   return (
     <div style={{ minHeight: '100vh' }}>
       <Cabecera fecha={fecha} />
-      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 40px 48px' }}>
+      <main className="main-content">
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '14px', marginBottom: '28px' }}>
+        <div className="grid-kpi">
           <TarjetaKpi etiqueta="Tickets"         valor={resumen.n_tickets}                                                    tooltip={KPI_TOOLTIPS.tickets} />
           <TarjetaKpi etiqueta="Comensales"      valor={resumen.comensales}                                                   tooltip={KPI_TOOLTIPS.comensales} />
           <TarjetaKpi etiqueta="Facturación"     valor={`€${resumen.facturacion.toLocaleString('es-ES')}`} color="verde"      tooltip={KPI_TOOLTIPS.facturacion} />
@@ -157,7 +157,7 @@ export default function App() {
           <TarjetaKpi etiqueta="T. Cocina Medio" valor={`${resumen.tiempo_medio_cocina} min`}                                 tooltip={KPI_TOOLTIPS.tiempoCocina} />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+        <div className="grid-panels">
           <PanelDesvios desvios={desvios} />
           <PanelStock   alertas={alertas_stock} />
         </div>
