@@ -1,13 +1,42 @@
+import base64
+import os
+import secrets
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
 from cruzamento import cargar_datos, calcular_desvios, calcular_alertas_stock, calcular_resumen_dia, calcular_recetas
+
+
+class BasicAuthMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        auth_user = os.getenv("AUTH_USER", "admin")
+        auth_pass = os.getenv("AUTH_PASS", "misecontrol")
+
+        authorization = request.headers.get("Authorization", "")
+        if authorization.startswith("Basic "):
+            try:
+                decoded = base64.b64decode(authorization[6:]).decode("utf-8")
+                username, password = decoded.split(":", 1)
+                if secrets.compare_digest(username, auth_user) and secrets.compare_digest(password, auth_pass):
+                    return await call_next(request)
+            except Exception:
+                pass
+
+        return Response(
+            status_code=401,
+            headers={"WWW-Authenticate": 'Basic realm="MiseControl"'},
+            content="Acceso restringido",
+        )
+
 
 app = FastAPI(title="MiseControl API")
 
+app.add_middleware(BasicAuthMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
